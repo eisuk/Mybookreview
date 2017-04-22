@@ -1,0 +1,12 @@
+<header class="header">
+  <%= link_to "記録する", new_note_path %>
+</header>
+
+<div class="contents row">
+  <% @notes.each do |note| %>
+  <!-- <a href="/notes/<% note.id %>"><span class="title"><%= note.title %></span> -->
+  <span class="title"> <%= link_to note.title, note_path %></span>
+  <span class="writer"><%= note.writer %></span>
+  <span class="text"><%= note.text %></span><br/>
+  <% end %>
+</div>
