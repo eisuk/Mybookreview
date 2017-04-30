@@ -1,0 +1,13 @@
+
+<ul class="listview js-lazy-load-images">
+  <% @notes.each do |note| %>
+    <li>
+        <span class="title"><%= link_to note.title, note_path(note.id) %></span>
+        <span class="writer"><%= note.writer %></span>
+        <span class="genre"><%= note.genre.name %></span>
+        <span class="text"><%= note.text %></span>
+        <span class="name"><%= note.user.name %></span>
+    </li>
+  <% end %>
+  <a class="btn" href="/">一覧画面へ戻る</a>
+</ul>

@@ -1,22 +1,36 @@
 <div>
 <%= form_for [@note] do |f| %>
-</div>
 
 <div style="margin: 8px 0">
   <%= f.text_field :title,placeholder: 'タイトル', value:'' %>
+</div>
+
+<div>
+  <%= f.collection_select :genre_id, Genre.all,:id,:name %>
 </div>
 
 <div style="margin: 8px 0">
   <%= f.text_field :writer,placeholder: '作者名', value:'' %>
 </div>
 
+<div>
+  <%= f.collection_select :genre_id, Genre.all,:id,:name %>
+</div>
+
 <div style="margin: 8px 0">
   <%= f.text_area :text,placeholder: '感想を記入する',style: 'width: 100%,height: 300px;' %>
 </div>
 
+<div>
+  <%= f.file_field :image %>
+</div>
+
 <div class="row">
   <div>
-    <%= f.submit "記録する" %>
+    <%= button_tag type: "submit", class: "btn--block" do %>
+      記録する
+      <% end %>
   </div>
 </div>
 <% end %>
+</div>

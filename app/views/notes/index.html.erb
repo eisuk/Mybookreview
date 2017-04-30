@@ -1,12 +1,185 @@
+<head>
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>3 Col Portfolio - Start Bootstrap Template</title>
+
+    <!-- Bootstrap Core CSS -->
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Custom CSS -->
+    <link href="css/3-col-portfolio.css" rel="stylesheet">
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+</head>
+<body>
+  <header class="header">
+    <h4>
+      <% if user_signed_in? %>
+          <%= form_tag('/notes/new', method: :get) do %>
+          <button class="btn-new" title="記録" type="new" >記録する<i class="icon-new"></i></button>
+         <% end %>
+      <% end %>
+
+      <%= form_tag('/notes/search', method: :get) do %>
+        <input class="search__query" name="keyword" placeholder="書籍名で検索" type="text" value=""><button class="btn-search" title="検索" type="submit" >検索<i class="icon-search"></i></button></input>
+      <% end %>
+
+      <form accept-charset="utf-8" action="/" class="js-search-submit" method="get">
+      </form>
+    </h4>
+  </header>
+
+    <!-- Navigation -->
+    <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+        <div class="container">
+            <!-- Brand and toggle get grouped for better mobile display -->
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand" href="#">MyBookReview</a>
+            </div>
+            <!-- Collect the nav links, forms, and other content for toggling -->
+            <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                <ul class="nav navbar-nav">
+                   <!--  <li>
+                        <a href="#">About</a>
+                    </li>
+                    <li>
+                        <a href="#">Services</a>
+                    </li>
+                    <li>
+                        <a href="#">Contact</a>
+                    </li> -->
+                    <% if user_signed_in? %>
+                        <li>
+                          <%= link_to "ログアウト", destroy_user_session_path,method: :delete %>
+                        </li>
+                        <li>
+                          <%= link_to "登録情報変更", edit_user_registration_path %>
+                        </li>
+                        <% else %>
+                        <li>
+                          <%= link_to "ログイン", new_user_session_path %>
+                        </li>
+                        <li>
+                          <%= link_to "新規登録", new_user_registration_path %>
+                        </li>
+                    <% end %>
+                </ul>
+            </div>
+            <!-- /.navbar-collapse -->
+        </div>
+        <!-- /.container -->
+    </nav>
+
+    <!-- Page Content -->
+    <div class="container">
+
+        <!-- Page Header -->
+        <div class="row">
+            <div class="col-lg-12">
+                <h1 class="page-header">MyBookReview
+                    <small>Secondary Text</small>
+                </h1>
+            </div>
+        </div>
+        <!-- /.row -->
+
+        <!-- Projects Row -->
+        <div class="row">
+             <% @notes.each do |note| %>
+            <div class="col-md-4 portfolio-item">
+
+                <%= link_to note_path(note.id) do %>
+                <%= image_tag note.image.url,:class => "img-responsive" %>
+                <% end %>
+             
+                <h3>
+                    <!-- <a href="#">Project Name</a> -->
+                    <span class="title"><%= link_to note.title, note_path(note.id) %></span></br>
+                </h3>
+                <h4>
+                    <span class="writer"><%= note.writer %></span>
+                    <span class="genre"><%= note.genre.name %></span>
+                </h4>
+               <!--  <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam viverra euismod odio, gravida pellentesque urna varius vitae.</p> -->
+
+            </div>
+           <% end %>
+        </div>
+
+        <hr>
+
+        <hr>
+
+        <!-- Footer -->
+        <footer>
+            <div class="row">
+                <div class="col-lg-12">
+                    <p>Copyright &copy; Your Website 2014</p>
+                </div>
+            </div>
+            <!-- /.row -->
+        </footer>
+
+    </div>
+    <!-- /.container -->
+
+    <!-- jQuery -->
+    <script src="js/jquery.js"></script>
+
+    <!-- Bootstrap Core JavaScript -->
+    <script src="js/bootstrap.min.js"></script>
+
+
+
+
+
+
+
+
+
 <header class="header">
-  <%= link_to "記録する", new_note_path %>
+  <% if user_signed_in? %>
+    <%= link_to "記録する", new_note_path %>
+  <% end %>
 </header>
+
+
+<%= form_tag('/notes/search', method: :get) do %>
+    <input class="search__query" name="keyword" placeholder="作品名で検索" type="text" value=""><button class="btn-search" title="検索" type="submit" ><i class="icon-search"></i></button></input>
+<% end %>
+<form accept-charset="utf-8" action="/" class="js-search-submit" method="get">
+</form>
 
 <div class="contents row">
   <% @notes.each do |note| %>
-  <!-- <a href="/notes/<% note.id %>"><span class="title"><%= note.title %></span> -->
-  <span class="title"> <%= link_to note.title, note_path %></span>
-  <span class="writer"><%= note.writer %></span>
-  <span class="text"><%= note.text %></span><br/>
+  <li>
+    <span class="title"><%= link_to note.title, note_path(note.id) %></span>
+    <span class="writer"><%= note.writer %></span>
+    <span class="genre"><%= note.genre.name %></span>
+    <span class="text"><%= note.text %></span>
+    <span class="name"><%= note.user.name %></span>
+      <% if user_signed_in? && current_user.id == note.user_id %>
+        <%= link_to "編集", edit_note_path(note.id) %>
+        <%= link_to "削除","/notes/#{note.id}",method: :delete %><br/>
+      <% end %>
+  </li>
   <% end %>
 </div>
+</body>
